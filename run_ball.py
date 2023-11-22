@@ -1,6 +1,7 @@
 import turtle
 import ball
 
+
 num_balls = int(input("Number of balls to simulate: "))
 turtle.speed(0)
 turtle.tracer(0)
@@ -16,7 +17,7 @@ vx = []
 vy = []
 ball_color = []
 ball.initilizing(xpos, ypos, vx, vy, ball_color, canvas_width, canvas_height, ball_radius, num_balls)
-while (True):
+while True:
     turtle.clear()
     for i in range(num_balls):
         ball.draw_circle(ball_color[i], ball_radius, xpos[i], ypos[i])

@@ -1,68 +1,35 @@
 import turtle
-import random
-
 
 class Ball:
-    def __init__(self, canvas_width, canvas_height, ball_radius):
-        self.xpos = random.randint(ball_radius, canvas_width - ball_radius)
-        self.ypos = random.randint(ball_radius, canvas_height - ball_radius)
-        self.vx = random.randint(1, 0.01 * canvas_width)
-        self.vy = random.randint(1, 0.01 * canvas_height)
-        self.radius = ball_radius
-        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    def __init__(self, size, x, y, vx, vy, color):
+        self.size = size
+        self.x = x
+        self.y = y
+        self.vx = vx
+        self.vy = vy
+        self.color = color
 
-    def move_circle(self, canvas_width, canvas_height):
-        # update the x, y coordinates of the ball with velocity
-        self.xpos += self.vx
-        self.ypos += self.vy
-
-        # if the ball hits the side walls, reverse the vx velocity
-        if abs(self.xpos + self.vx) > (canvas_width - self.radius):
-            self.vx = -self.vx
-
-        # if the ball hits the ceiling or the floor, reverse the vy velocity
-        if abs(self.ypos + self.vy) > (canvas_height - self.radius):
-            self.vy = -self.vy
-
-    def draw_circle(self):
+    def draw(self):
+        # draw a circle of radius equals to size at x, y coordinates and paint it with color
         turtle.penup()
-        turtle.goto(self.xpos, self.ypos - self.radius)
-        turtle.pendown()
         turtle.color(self.color)
+        turtle.fillcolor(self.color)
+        turtle.goto(self.x,self.y)
+        turtle.pendown()
         turtle.begin_fill()
-        turtle.circle(self.radius)
+        turtle.circle(self.size)
         turtle.end_fill()
 
+    def move(self):
+        self.x += self.vx
+        self.y += self.vy
 
-class ballsim:
-    def __init__(self, canvas_width, canvas_height, ball_radius, num_balls):
-        self.canvas_width = canvas_width
-        self.canvas_height = canvas_height
-        self.balls = [Ball(canvas_width, canvas_height, ball_radius) for _ in range(num_balls)]
+        canvas_width = turtle.screensize()[0]
+        canvas_height = turtle.screensize()[1]
 
-    def update_balls(self):
-        for ball in self.balls:
-            ball.move_circle(self.canvas_width, self.canvas_height)
+        if abs(self.x + self.vx) > (canvas_width - self.size):
+            self.vx = -self.vx
 
-    def draw_balls(self):
-        for ball in self.balls:
-            ball.draw_circle()
+        if abs(self.y + self.vy) > ( canvas_height- self.size):
+            self.vy = -self.vy
 
-
-num_balls = int(input("Number of balls to simulate: "))
-turtle.speed(0)
-turtle.tracer(0)
-turtle.hideturtle()
-canvas_width, canvas_height = turtle.screensize()
-ball_radius = 0.05 * canvas_width
-turtle.colormode(255)
-
-sim = ballsim(canvas_width, canvas_height, ball_radius, num_balls)
-
-while True:
-    turtle.clear()
-    sim.update_balls()
-    sim.draw_balls()
-    turtle.update()
-
-    # turtle.done()
